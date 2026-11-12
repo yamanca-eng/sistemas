@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sistemas en el dominio de la frecuencia | Señales y Sistemas</title>
+<style>
+:root{--bg:#f4f7fb;--tx:#14202e;--mu:#5b6b7d;--pn:#fff;--bd:#d5dde8;--a:#0a7fb5;--b:#d9691a;--ok:#15803d;--bad:#c62828;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b1220;--tx:#e8eef7;--mu:#93a4b8;--pn:#131d30;--bd:#27364f;--a:#4fd1ff;--b:#ffa94d;--ok:#4ade80;--bad:#ff7b7b}}
+:root[data-theme=dark]{--bg:#0b1220;--tx:#e8eef7;--mu:#93a4b8;--pn:#131d30;--bd:#27364f;--a:#4fd1ff;--b:#ffa94d;--ok:#4ade80;--bad:#ff7b7b}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column}
+#deck{flex:1;position:relative;overflow:hidden}
+section{position:absolute;inset:0;display:none;overflow-y:auto;padding:28px min(6vw,70px)}
+section.on{display:block}
+h1{font-size:clamp(30px,5vw,54px);line-height:1.1;margin:.2em 0}h1 span{color:var(--a)}
+h2{font-size:clamp(22px,3.2vw,34px);margin:.1em 0 .6em}h3{margin:0 0 8px;font-size:17px}
+.k{color:var(--a);font-weight:700;letter-spacing:.08em;font-size:13px;margin:0}
+.mu{color:var(--mu);font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:800px){.two{grid-template-columns:1fr}}
+.pn{background:var(--pn);border:1px solid var(--bd);border-radius:14px;padding:16px}
+.f{background:var(--pn);border-left:4px solid var(--a);padding:8px 14px;margin:10px 0;font:italic 18px/1.4 Georgia,"Times New Roman",serif;overflow-x:auto}
+.f i{font-style:italic}
+label{display:block;margin:10px 0;font-size:14px}label b{color:var(--a)}
+input[type=range]{width:100%;accent-color:var(--a)}
+select,.bt{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--pn);color:var(--tx)}
+.bt{background:var(--a);color:var(--bg);border:0;cursor:pointer;font-weight:600;margin:4px 6px 4px 0}.bt.s{background:var(--pn);color:var(--tx);border:1px solid var(--bd)}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:10px 0}
+.m{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 10px}.m span{display:block;font-size:12px;color:var(--mu)}.m b{font-size:18px}
+canvas{width:100%;height:auto;display:block;margin-top:8px;border-radius:8px;background:var(--bg)}
+.st{display:none;padding:6px 10px;margin:6px 0;border-left:3px solid var(--b);background:var(--pn);border-radius:6px}.st.on{display:block}
+.fl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}.nd{border:2px solid var(--bd);border-radius:10px;padding:10px 16px;text-align:center;font:italic 18px Georgia,serif;transition:.3s}.nd small{display:block;font:12px system-ui;color:var(--mu)}.nd.on{border-color:var(--a);background:var(--bg);transform:scale(1.08)}
+.q{display:block;width:100%;text-align:left;margin:6px 0}.q.ok{outline:3px solid var(--ok)}.q.no{outline:3px solid var(--bad)}
+.cv{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}@media(max-width:800px){.cv{grid-template-columns:1fr}}
+#nav{display:flex;align-items:center;justify-content:center;gap:14px;padding:8px;border-top:1px solid var(--bd);background:var(--pn)}
+#bar{position:absolute;left:0;top:0;height:3px;background:var(--a);transition:.3s;z-index:2}
+.good{color:var(--ok)!important}.badc{color:var(--bad)!important}
+</style></head><body>
+<div id="deck"><div id="bar"></div>
+
+<section class="on"><p class="k">UNIVERSIDAD NACIONAL DE SAN AGUSTÍN · SEÑALES Y SISTEMAS</p>
+<div class="cv"><div><h1>Sistemas en el <span>dominio de la frecuencia</span></h1>
+<p>De las señales a los sistemas: una exploración interactiva de su comportamiento.</p>
+<p><b>Docente:</b> Dr. Alexander Hilario Tacuri</p><p><b>Integrantes:</b></p>
+<ul><li>AMANCA ASLLA YOHAN FABRISIO</li><li>CHAMBI COSSI JHON CARLOS</li><li>COYLA SALAS EDUARDO PATRICK</li><li>HUARHUA PUMARAYME YADIR EMERY</li></ul>
+<p class="mu">Presentación interactiva · 2026 · Usa ← → o los botones inferiores</p></div>
+<div class="pn"><canvas id="cw" width="620" height="360"></canvas></div></div></section>
+
+<section><p class="k">01 · FUNDAMENTOS</p><h2>¿Qué es el dominio de la frecuencia?</h2><div class="two"><div>
+<p>Es estudiar señales y sistemas observando cómo se distribuye su contenido en distintas frecuencias, en lugar de describir solo cómo cambian con el tiempo.</p>
+<div class="f">Y(jω) = H(jω)·X(jω)</div>
+<ul><li><b>Entrada:</b> x(t) o X(jω)</li><li><b>Sistema:</b> H(jω)</li><li><b>Salida:</b> y(t) o Y(jω)</li></ul>
+<p class="mu">Para sistemas LTI, la respuesta en frecuencia indica cómo responde el sistema a cada componente sinusoidal.</p></div>
+<div class="pn"><h3>Explora el recorrido</h3><div class="fl"><div class="nd">x(t)<small>Entrada</small></div>→<div class="nd">H(jω)<small>Sistema</small></div>→<div class="nd">y(t)<small>Salida</small></div></div>
+<button class="bt" id="fb">Mostrar proceso</button><p class="mu" id="fc">Pulsa para recorrer las etapas.</p></div></div></section>
+
+<section><p class="k">02 · DOS FORMAS DE OBSERVAR</p><h2>Dominio del tiempo vs. dominio de la frecuencia</h2><div class="two">
+<div class="pn"><h3>Tiempo</h3><canvas id="c1" width="700" height="300"></canvas></div>
+<div class="pn"><h3>Frecuencia</h3><canvas id="c2" width="700" height="300"></canvas></div></div>
+<r i="f0" t="Frecuencia f₀" n="10" x="100" v="50" u=" Hz"></r>
+<div class="f">x(t) = cos(2πf₀t) &nbsp; X(f) = ½[δ(f − f₀) + δ(f + f₀)]</div>
+<p class="mu">Transformada de Fourier: X(jω) = ∫ x(t)·e<sup>−jωt</sup> dt, de −∞ a ∞.</p></section>
+
+<section><p class="k">03 · RESPUESTA DEL SISTEMA</p><h2>Respuesta en frecuencia y función de transferencia</h2><div class="two"><div>
+<p>La función de transferencia relaciona salida y entrada en Laplace. Evaluada en s = jω, da la respuesta en frecuencia.</p>
+<div class="f">H(jω) = Y(jω) / X(jω)</div><div class="f">y(t) = A·|H(jω)|·cos(ωt + φ(ω))</div>
+<p class="mu">Frecuencia angular en rad/s: ω = 2πf.</p></div>
+<div class="pn"><h3>RC pasa-bajos · H(jω) = 1/(1 + jωRC), f<sub>c</sub> = 200 Hz</h3>
+<r i="rf" t="Frecuencia de entrada" n="10" x="2000" v="200" u=" Hz"></r>
+<div class="mg"><div class="m"><span>Magnitud</span><b id="rm"></b></div><div class="m"><span>Fase</span><b id="rp"></b></div><div class="m"><span>Salida / entrada</span><b id="rr"></b></div></div>
+<canvas id="c3" width="700" height="220"></canvas></div></div></section>
+
+<section><p class="k">04 · MAGNITUD</p><h2>¿Cuánto cambia la amplitud?</h2><div class="two"><div>
+<p>La magnitud indica cuánto amplifica o atenúa el sistema cada componente.</p>
+<div class="f">|H(jω)| = |Y(jω)| / |X(jω)|</div><div class="f">G<sub>dB</sub> = 20·log₁₀|H(jω)|</div>
+<ul><li>Mayor que 1: amplificación.</li><li>Menor que 1: atenuación.</li><li>Igual a 1: misma amplitud.</li></ul>
+<p class="mu">Ejemplo: 5 V de entrada y 2 V de salida dan |H| = 0.4 y G ≈ −7.96 dB.</p></div>
+<div class="pn"><h3>Explorador de ganancia</h3>
+<r i="ai" t="Amplitud de entrada" n="1" x="10" s=".5" v="5" u=" V"></r><r i="g" t="Ganancia |H|" n=".1" x="2" s=".05" v=".4" u=""></r>
+<div class="mg"><div class="m"><span>Salida</span><b id="ao"></b></div><div class="m"><span>Ganancia</span><b id="gd"></b></div></div>
+<canvas id="c4" width="700" height="220"></canvas></div></div></section>
+
+<section><p class="k">05 · FASE</p><h2>El desfase: adelanto y retraso</h2><div class="two"><div>
+<p>La fase es el desplazamiento angular que introduce el sistema entre entrada y salida.</p>
+<div class="f">φ(ω) = arg[H(jω)]</div><div class="f">Δt = −φ / ω</div>
+<p>Fase negativa es retraso; positiva, adelanto (convención de señal cosenoidal).</p>
+<p class="mu">A 100 Hz, −90° equivale a un retraso de 2.5 ms.</p></div>
+<div class="pn"><h3>Controla el desfase</h3>
+<r i="ph" t="Fase" n="-180" x="180" v="-90" u="°"></r><r i="pf" t="Frecuencia" n="20" x="200" v="100" u=" Hz"></r>
+<div class="m"><span>Retraso temporal (negativo = adelanto)</span><b id="pd"></b></div>
+<canvas id="c5" width="700" height="260"></canvas><p class="mu"><b style="color:var(--a)">Azul</b>: entrada · <b style="color:var(--b)">Naranja</b>: salida</p></div></div></section>
+
+<section><p class="k">06 · HERRAMIENTA DE ANÁLISIS</p><h2>Diagramas de Bode</h2><div class="two"><div>
+<p>Muestran magnitud y fase frente a la frecuencia, normalmente con eje horizontal logarítmico.</p>
+<div class="f">G<sub>dB</sub> = 20·log₁₀|H(jω)|</div><div class="f">φ = arg H(jω)</div>
+<p>Sirven para estudiar ganancia, frecuencia de corte y márgenes de estabilidad.</p></div>
+<div class="pn"><h3>RC pasa-bajos · Bode en vivo</h3>
+<r i="bc" t="Frecuencia de corte" n="50" x="1000" v="200" u=" Hz"></r><r i="bf" t="Frecuencia analizada" n="10" x="3000" v="200" u=" Hz"></r>
+<div class="mg"><div class="m"><span>Magnitud</span><b id="bm"></b></div><div class="m"><span>Fase</span><b id="bp"></b></div></div>
+<canvas id="c6" width="700" height="170"></canvas><canvas id="c7" width="700" height="170"></canvas></div></div></section>
+
+<section><p class="k">07 · APLICACIÓN ELÉCTRICA</p><h2>Resonancia en sistemas eléctricos</h2><div class="two"><div>
+<p>En un RLC serie hay resonancia cuando las reactancias inductiva y capacitiva se igualan.</p>
+<div class="f">X<sub>L</sub> = 2πfL &nbsp; X<sub>C</sub> = 1/(2πfC)</div><div class="f">f₀ = 1 / (2π√(LC))</div>
+<p>En resonancia ideal, la impedancia es mínima e igual a R, y la corriente es máxima para una tensión fija.</p>
+<p class="mu">Aplicaciones: sintonía de radio, circuitos RF, instrumentación.</p></div>
+<div class="pn"><h3>Calculadora RLC</h3>
+<r i="L" t="Inductancia L" n=".01" x=".5" s=".01" v=".1" u=" H"></r><r i="C" t="Capacitancia C" n="10" x="500" s="5" v="100" u=" μF"></r><r i="R" t="Resistencia R" n="10" x="500" s="10" v="100" u=" Ω"></r>
+<div class="mg"><div class="m"><span>Frecuencia resonante</span><b id="r0"></b></div><div class="m"><span>Z en resonancia</span><b id="rz"></b></div></div>
+<canvas id="c8" width="700" height="220"></canvas><p class="mu">|Z| frente a f; la línea punteada marca f₀.</p></div></div></section>
+
+<section><p class="k">08 · APLICACIÓN MECÁNICA</p><h2>Resonancia y vibraciones mecánicas</h2><div class="two"><div>
+<p>Un sistema masa-resorte-amortiguador oscila cuando recibe una fuerza periódica.</p>
+<div class="f">m·x″ + c·x′ + k·x = F(t)</div><div class="f">f<sub>n</sub> = (1/2π)·√(k/m)</div>
+<p>Cerca de la frecuencia natural la amplitud crece; el amortiguamiento limita ese crecimiento.</p>
+<p class="mu">Aplicaciones: suspensión, maquinaria, puentes y edificios. Aquí m = 1 kg, k = 100 N/m, F = 1 N.</p></div>
+<div class="pn"><h3>Laboratorio masa-resorte</h3>
+<r i="mf" t="Frecuencia de excitación" n=".2" x="4" s=".1" v="1.6" u=" Hz"></r><r i="mc" t="Amortiguamiento c" n=".2" x="8" s=".2" v="2" u=" Ns/m"></r>
+<div class="mg"><div class="m"><span>Frecuencia natural</span><b>1.59 Hz</b></div><div class="m"><span>Amplitud estacionaria</span><b id="ma"></b></div></div>
+<canvas id="c9" width="700" height="220"></canvas></div></div></section>
+
+<section><p class="k">09 · COMUNICACIONES</p><h2>Ancho de banda y selectividad</h2><div class="two"><div>
+<p>El ancho de banda es el intervalo de frecuencias ocupado o permitido por una señal o canal.</p>
+<div class="f">B = f<sub>sup</sub> − f<sub>inf</sub></div>
+<p>La selectividad es la capacidad de distinguir señales cercanas en frecuencia.</p><div class="f">C = B·log₂(1 + S/N)</div>
+<p class="mu">Shannon da la capacidad teórica máxima de un canal ideal con ruido blanco gaussiano.</p></div>
+<div class="pn"><h3>Explorador de canal</h3>
+<r i="bl" t="Límite inferior" n="2" x="2.6" s=".01" v="2.4" u=" GHz"></r><r i="bh" t="Límite superior" n="2.41" x="2.8" s=".01" v="2.48" u=" GHz"></r><r i="sn" t="Relación S/N (veces, no dB)" n="1" x="30" v="15" u=""></r>
+<div class="mg"><div class="m"><span>Ancho de banda</span><b id="bw"></b></div><div class="m"><span>Capacidad ideal</span><b id="cp"></b></div></div>
+<canvas id="c10" width="700" height="150"></canvas></div></div></section>
+
+<section><p class="k">10 · ESTABILIDAD</p><h2>Estabilidad de sistemas y respuesta en frecuencia</h2><div class="two"><div>
+<p>Un sistema es BIBO estable si toda entrada acotada produce una salida acotada.</p><div class="f">H(s) = N(s) / D(s)</div>
+<p>Para un sistema continuo, racional, causal y propio, se requiere que todos los polos estén en el semiplano izquierdo.</p><div class="f">Re(p<sub>i</sub>) &lt; 0</div>
+<p class="mu">En sistemas realimentados, Nyquist estudia la estabilidad a partir de la respuesta en frecuencia.</p></div>
+<div class="pn"><h3>Mueve el polo real</h3><r i="po" t="Ubicación del polo" n="-5" x="5" s=".25" v="-2" u=""></r>
+<canvas id="c11" width="700" height="200"></canvas>
+<div class="m"><span>Clasificación</span><b id="ps"></b></div><p class="mu">Ejemplos: 5/(s+2) es estable; 5/(s−2) es inestable.</p></div></div></section>
+
+<section><p class="k">11 · EJEMPLO RESUELTO</p><h2>Un sistema paso a paso</h2><div class="two"><div>
+<div class="f">H(s) = 10/(s+5) &nbsp; x(t) = 2cos(10t)</div>
+<div class="st on"><b>1.</b> Evaluamos en s = jω: H(jω) = 10/(5 + jω).</div>
+<div class="st"><b>2.</b> Con ω = 10: H(j10) = 10/(5 + j10).</div>
+<div class="st"><b>3.</b> Magnitud: 10/√(5² + 10²) = 0.8944.</div>
+<div class="st"><b>4.</b> Fase: φ = −tan⁻¹(10/5) = −63.43°.</div>
+<div class="st"><b>5.</b> Salida: y(t) = 1.7889·cos(10t − 63.43°).</div>
+<button class="bt" id="ns">Siguiente paso</button><button class="bt s" id="rs">Reiniciar</button></div>
+<div class="pn"><h3>Comprueba la respuesta</h3><r i="ew" t="Frecuencia angular" n="1" x="30" v="10" u=" rad/s"></r>
+<div class="mg"><div class="m"><span>Magnitud</span><b id="em"></b></div><div class="m"><span>Fase</span><b id="ep"></b></div><div class="m"><span>Amp. salida</span><b id="ea"></b></div></div>
+<canvas id="c12" width="700" height="220"></canvas></div></div></section>
+
+<section><p class="k">12 · SIMULADOR</p><h2>Experimenta con sistemas y señales</h2>
+<p>Sistema de primer orden H(s) = 5/(s+5), simulado numéricamente desde reposo. Ganancia y fase corresponden a la frecuencia elegida (en la onda cuadrada, a su fundamental).</p><div class="two"><div class="pn">
+<label>Tipo de señal <select id="wt"><option value="s">Senoidal</option><option value="c">Cosenoidal</option><option value="q">Cuadrada</option></select></label>
+<r i="sf" t="Frecuencia" n=".2" x="8" s=".1" v="1" u=" Hz"></r><r i="sa" t="Amplitud" n=".2" x="3" s=".1" v="1" u=" V"></r>
+<div class="mg"><div class="m"><span>Ganancia (en f)</span><b id="sg"></b></div><div class="m"><span>Fase (en f)</span><b id="sp"></b></div></div></div>
+<div class="pn"><h3>Entrada y salida</h3><canvas id="c13" width="700" height="300"></canvas><p class="mu"><b style="color:var(--a)">Azul</b>: entrada · <b style="color:var(--b)">Naranja</b>: salida</p></div></div></section>
+
+<section><p class="k">13 · LABORATORIO BODE</p><h2>¿Qué pasa si cambiamos el sistema?</h2><div class="two"><div class="pn">
+<r i="lk" t="Ganancia K" n=".2" x="3" s=".1" v="1" u=""></r><r i="lt" t="Constante de tiempo τ" n=".0002" x=".005" s=".0001" v=".0008" u=" s"></r><r i="lf" t="Frecuencia analizada" n="10" x="3000" v="200" u=" Hz"></r>
+<div class="mg"><div class="m"><span>Frecuencia de corte</span><b id="lc"></b></div><div class="m"><span>Magnitud</span><b id="lm"></b></div></div></div>
+<div class="pn"><h3>Respuesta del sistema</h3><canvas id="c14" width="700" height="300"></canvas><p class="mu">Magnitud (dB) de H(s) = K/(1 + sτ)</p></div></div></section>
+
+<section><p class="k">14 · TELECOMUNICACIONES</p><h2>Modulación AM y transmisión de datos</h2><div class="two"><div>
+<p>En AM, la amplitud de una portadora sigue a la señal de información.</p>
+<div class="f">s(t) = A<sub>c</sub>[1 + μ·cos(2πf<sub>m</sub>t)]·cos(2πf<sub>c</sub>t)</div><div class="f">B = 2f<sub>m</sub></div>
+<p>El espectro tiene la portadora f<sub>c</sub> y dos bandas laterales f<sub>c</sub> − f<sub>m</sub> y f<sub>c</sub> + f<sub>m</sub>.</p><p class="mu">Otras técnicas: FM, ASK, FSK, PSK y QAM.</p></div>
+<div class="pn"><h3>Transmisor AM interactivo</h3>
+<r i="af" t="Portadora fc" n="500" x="2000" s="50" v="1000" u=" Hz"></r><r i="am" t="Mensaje fm" n="20" x="300" s="10" v="100" u=" Hz"></r><r i="au" t="Índice μ" n="0" x="1" s=".05" v=".5" u=""></r>
+<div class="m"><span>Ancho de banda AM</span><b id="ab"></b></div>
+<canvas id="c15" width="700" height="170"></canvas><canvas id="c16" width="700" height="170"></canvas><p class="mu">Arriba: señal modulada. Abajo: portadora y bandas laterales.</p></div></div></section>
+
+<section><p class="k">15 · CIERRE</p><h2>Ideas que nos llevamos</h2>
+<div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+<div class="pn"><b>01 · La frecuencia revela</b><br><span class="mu">cómo responde un sistema ante cada componente sinusoidal.</span></div>
+<div class="pn"><b>02 · Magnitud y fase</b><br><span class="mu">describen el cambio de amplitud y el desplazamiento angular.</span></div>
+<div class="pn"><b>03 · Resonancia y estabilidad</b><br><span class="mu">son claves en el diseño y análisis de sistemas reales.</span></div>
+<div class="pn"><b>04 · Telecomunicaciones</b><br><span class="mu">aplican estos conceptos para transmitir información.</span></div></div>
+<div class="pn"><h3>Pregunta final: ¿qué ventaja principal ofrece analizar un sistema en frecuencia?</h3>
+<button class="bt s q" data-o="0">A. Elimina todo el ruido.</button><button class="bt s q" data-o="1">B. Permite estudiar su respuesta según la frecuencia.</button><button class="bt s q" data-o="0">C. Hace innecesario conocer la entrada.</button>
+<p id="qf" class="mu">Selecciona una respuesta.</p></div>
+<h2 style="text-align:center;margin-top:20px">¡Gracias por su atención!</h2>
+<p class="mu"><b>Referencias:</b> Oppenheim, Willsky &amp; Nawab, <i>Signals and Systems</i> (Pearson) · Haykin &amp; Van Veen, <i>Signals and Systems</i> (Wiley) · Lathi, <i>Linear Systems and Signals</i> (Oxford) · Alexander &amp; Sadiku, <i>Fundamentals of Electric Circuits</i> (McGraw-Hill).</p></section>
+</div>
+<div id="nav"><button class="bt s" id="pv">← Anterior</button><span id="ct"></span><button class="bt s" id="pb">⏸ Pausar animación</button><button class="bt" id="nx">Siguiente →</button></div>
+<script>
+const $=id=>document.getElementById(id),n=id=>+$(id).value,T=(id,t)=>{$(id).textContent=t},r2=(x,d=2)=>x.toFixed(d).replace("-","−"),PI=Math.PI,lg=Math.log10;
+document.querySelectorAll("r").forEach(e=>{const g=k=>e.getAttribute(k);e.outerHTML=`<label>${g("t")}: <b id="${g("i")}V"></b><input id="${g("i")}" type="range" min="${g("n")}" max="${g("x")}" step="${g("s")||1}" value="${g("v")}" data-u="${g("u")}"></label>`});
+let tt=0,pl=true;const css=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+function cv(id){const c=$(id),g=c.getContext("2d");g.clearRect(0,0,c.width,c.height);return[g,c.width,c.height]}
+function plot(id,ser,o){const[g,W,H]=cv(id),L=o.lx,tx=x=>L?lg(x):x,a=tx(o.x0),b=tx(o.x1),X=x=>10+(tx(x)-a)/(b-a)*(W-20),Y=y=>H-10-(y-o.y0)/(o.y1-o.y0)*(H-20);
+g.strokeStyle=css("--bd");g.lineWidth=1;if(o.y0<0&&o.y1>0){g.beginPath();g.moveTo(0,Y(0));g.lineTo(W,Y(0));g.stroke()}
+ser.forEach(s=>{g.strokeStyle=css(s.c);g.lineWidth=2;g.beginPath();const N=o.N||300;for(let i=0;i<=N;i++){const x=L?10**(a+(b-a)*i/N):o.x0+(o.x1-o.x0)*i/N,y=Math.max(o.y0,Math.min(o.y1,s.f(x)));i?g.lineTo(X(x),Y(y)):g.moveTo(X(x),Y(y))}g.stroke()});
+if(o.m!=null){g.strokeStyle=css("--mu");g.setLineDash([5,4]);g.beginPath();g.moveTo(X(o.m),0);g.lineTo(X(o.m),H);g.stroke();g.setLineDash([]);g.fillStyle=css("--b");const y=ser[0].f(o.m);g.beginPath();g.arc(X(o.m),Y(Math.max(o.y0,Math.min(o.y1,y))),5,0,7);g.fill()}}
+function bars(id,l,o){const[g,W,H]=cv(id),X=x=>10+(x-o.x0)/(o.x1-o.x0)*(W-20),Y=y=>H-10-y/o.y1*(H-20);g.strokeStyle=css("--bd");g.beginPath();g.moveTo(0,Y(0));g.lineTo(W,Y(0));g.stroke();g.strokeStyle=g.fillStyle=css("--a");g.lineWidth=4;l.forEach(([x,h])=>{g.beginPath();g.moveTo(X(x),Y(0));g.lineTo(X(x),Y(h));g.stroke();g.beginPath();g.arc(X(x),Y(h),5,0,7);g.fill()})}
+function D(){
+document.querySelectorAll("input[type=range]").forEach(e=>{$(e.id+"V").textContent=parseFloat((+e.value).toFixed(4))+e.dataset.u});
+let f=n("f0");plot("c1",[{f:t=>Math.cos(2*PI*f*(t+tt*.01)),c:"--a"}],{x0:0,x1:.06,y0:-1.2,y1:1.2});bars("c2",[[-f,.5],[f,.5]],{x0:-120,x1:120,y1:.6});
+f=n("rf");let m=1/Math.hypot(1,f/200);T("rm",m.toFixed(3));T("rp",r2(-Math.atan(f/200)*180/PI,1)+"°");T("rr",(m*100).toFixed(1)+"%");plot("c3",[{f:x=>1/Math.hypot(1,x/200),c:"--a"}],{x0:10,x1:2000,y0:0,y1:1.1,lx:1,m:f});
+let a=n("ai"),G=n("g");T("ao",r2(a*G)+" V");T("gd",r2(20*lg(G))+" dB");plot("c4",[{f:x=>a*Math.cos(2*PI*(x+tt*.5)),c:"--a"},{f:x=>a*G*Math.cos(2*PI*(x+tt*.5)),c:"--b"}],{x0:0,x1:2,y0:-10,y1:10});
+let p=n("ph");f=n("pf");T("pd",r2(-p/360/f*1000)+" ms");plot("c5",[{f:t=>Math.cos(2*PI*f*(t+tt*.01)),c:"--a"},{f:t=>Math.cos(2*PI*f*(t+tt*.01)+p*PI/180),c:"--b"}],{x0:0,x1:2/f,y0:-1.2,y1:1.2});
+let fc=n("bc");f=n("bf");T("bm",r2(-10*lg(1+(f/fc)**2))+" dB");T("bp",r2(-Math.atan(f/fc)*180/PI,1)+"°");
+plot("c6",[{f:x=>-10*lg(1+(x/fc)**2),c:"--a"}],{x0:10,x1:3000,y0:-40,y1:3,lx:1,m:f});plot("c7",[{f:x=>-Math.atan(x/fc)*180/PI,c:"--a"}],{x0:10,x1:3000,y0:-95,y1:5,lx:1,m:f});
+let L=n("L"),C=n("C")*1e-6,R=n("R"),f0=1/(2*PI*Math.sqrt(L*C));T("r0",r2(f0)+" Hz");T("rz",R+" Ω");
+plot("c8",[{f:x=>Math.hypot(R,2*PI*x*L-1/(2*PI*x*C)),c:"--a"}],{x0:1,x1:Math.max(100,2.2*f0),y0:0,y1:5*R,m:f0});
+f=n("mf");let c=n("mc"),A=x=>1/Math.hypot(100-(2*PI*x)**2,c*2*PI*x);T("ma",A(f).toFixed(3)+" m");plot("c9",[{f:A,c:"--a"}],{x0:.2,x1:4,y0:0,y1:1.1/(c*10),m:f});
+let lo=n("bl"),hi=n("bh"),B=Math.max(0,(hi-lo)*1000);T("bw",B.toFixed(0)+" MHz");T("cp",(B*Math.log2(1+n("sn"))).toFixed(0)+" Mbps");
+{const[g,W,H]=cv("c10"),X=x=>10+(x-2)/.8*(W-20);g.fillStyle=css("--a");g.globalAlpha=.6;g.fillRect(X(lo),20,Math.max(0,X(hi)-X(lo)),H-50);g.globalAlpha=1;g.fillStyle=css("--mu");g.font="14px system-ui";[2,2.2,2.4,2.6,2.8].forEach(v=>g.fillText(v+" GHz",X(v)-20,H-8))}
+let po=n("po");{const[g,W,H]=cv("c11");g.strokeStyle=css("--mu");g.beginPath();g.moveTo(0,H/2);g.lineTo(W,H/2);g.moveTo(W/2,0);g.lineTo(W/2,H);g.stroke();g.fillStyle=po<0?css("--ok"):po>0?css("--bad"):css("--b");g.beginPath();g.arc(W/2+po*W/12,H/2,9,0,7);g.fill()}
+$("ps").textContent=po<0?"Estable (polo en semiplano izquierdo)":po>0?"Inestable (semiplano derecho)":"Marginal: no es BIBO estable (polo sobre el eje jω)";$("ps").className=po<0?"good":po>0?"badc":"";
+let w=n("ew"),em=10/Math.hypot(5,w);T("em",em.toFixed(4));T("ep",r2(-Math.atan(w/5)*180/PI)+"°");T("ea",(2*em).toFixed(4));
+plot("c12",[{f:t=>2*Math.cos(w*(t+tt*.5)),c:"--a"},{f:t=>2*em*Math.cos(w*(t+tt*.5)-Math.atan(w/5)),c:"--b"}],{x0:0,x1:4*PI/w,y0:-2.2,y1:2.2});
+f=n("sf");a=n("sa");let ty=$("wt").value,dt=.002,ys=[],y=0,xs=t=>ty=="s"?a*Math.sin(2*PI*f*t):ty=="c"?a*Math.cos(2*PI*f*t):a*(Math.sin(2*PI*f*t)>=0?1:-1);
+for(let i=0;i<=6500;i++){ys.push(y);y+=dt*5*(xs(i*dt)-y)}w=2*PI*f;T("sg",(5/Math.hypot(5,w)).toFixed(3));T("sp",r2(-Math.atan(w/5)*180/PI,1)+"°");
+plot("c13",[{f:t=>xs(t+tt%8),c:"--a"},{f:t=>ys[Math.round((t+tt%8)/dt)],c:"--b"}],{x0:0,x1:5,y0:-3.3,y1:3.3,N:500});
+let K=n("lk"),tau=n("lt");fc=1/(2*PI*tau);f=n("lf");T("lc",fc.toFixed(1)+" Hz");T("lm",r2(20*lg(K/Math.hypot(1,f/fc)))+" dB");
+plot("c14",[{f:x=>20*lg(K/Math.hypot(1,x/fc)),c:"--a"}],{x0:10,x1:3000,y0:-40,y1:12,lx:1,m:f});
+let Fc=n("af"),Fm=n("am"),mu=n("au");T("ab",2*Fm+" Hz");
+plot("c15",[{f:t=>(1+mu*Math.cos(2*PI*Fm*(t+tt*.003)))*Math.cos(2*PI*Fc*(t+tt*.003)),c:"--a"}],{x0:0,x1:Math.min(.06,Math.max(.03,1.5/Fm)),y0:-2,y1:2,N:1500});bars("c16",[[Fc,1],[Fc-Fm,mu/2],[Fc+Fm,mu/2]],{x0:0,x1:2400,y1:1.1})}
+document.addEventListener("input",D);$("wt").onchange=D;matchMedia("(prefers-color-scheme:dark)").onchange=D;
+const S=[...document.querySelectorAll("section")];let cur=0;
+function go(i){cur=Math.max(0,Math.min(S.length-1,i));S.forEach((s,k)=>s.classList.toggle("on",k==cur));$("ct").textContent=(cur+1)+" / "+S.length;$("bar").style.width=(cur+1)/S.length*100+"%";S[cur].scrollTop=0;try{history.replaceState(null,"","#s"+(cur+1))}catch(e){}D()}
+$("pv").onclick=()=>go(cur-1);$("nx").onclick=()=>go(cur+1);
+document.addEventListener("keydown",e=>{if(e.target.tagName=="INPUT"||e.target.tagName=="SELECT")return;if(e.key=="ArrowRight"||e.key=="PageDown")go(cur+1);if(e.key=="ArrowLeft"||e.key=="PageUp")go(cur-1)});
+let fi=-1;const nd=document.querySelectorAll(".nd"),cap=["Entrada: la señal x(t) llega al sistema.","El sistema aplica H(jω) a cada frecuencia.","Salida: y(t) con otra amplitud y fase."];
+$("fb").onclick=()=>{fi=(fi+1)%3;nd.forEach((e,k)=>e.classList.toggle("on",k==fi));T("fc",cap[fi])};
+const st=document.querySelectorAll(".st");let si=0;$("ns").onclick=()=>{si=Math.min(st.length-1,si+1);st[si].classList.add("on")};$("rs").onclick=()=>{si=0;st.forEach((e,k)=>e.classList.toggle("on",k==0))};
+document.querySelectorAll(".q").forEach(b=>b.onclick=()=>{document.querySelectorAll(".q").forEach(x=>x.classList.remove("ok","no"));const ok=b.dataset.o=="1";b.classList.add(ok?"ok":"no");T("qf",ok?"¡Correcto! Analizar en frecuencia permite ver cómo responde el sistema a cada componente.":"Casi. Piensa en qué revela H(jω) para cada frecuencia.")});
+let t0=0;(function an(){const[g,W,H]=cv("cw");[["--a",1,0],["--b",.6,1.5]].forEach(([c,k,ph])=>{g.strokeStyle=css(c);g.lineWidth=3;g.beginPath();for(let x=0;x<=W;x+=4){const y=H/2+Math.sin(x/45*k+t0+ph)*H*.3*(c=="--a"?1:.7);x?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()});g.fillStyle=css("--tx");g.font="italic 28px Georgia,serif";g.fillText("H(jω)",14,34);t0+=.04;requestAnimationFrame(an)})();
+let lt=0;(function lp(ts){const d=Math.min(.05,(ts-lt)/1000||0);lt=ts;if(pl){tt+=d;D()}requestAnimationFrame(lp)})(0);$("pb").onclick=()=>{pl=!pl;$("pb").textContent=pl?"⏸ Pausar animación":"▶ Animar"};
+const h=parseInt((location.hash||"").slice(2));go(h>0?h-1:0);
+</script></body></html>
